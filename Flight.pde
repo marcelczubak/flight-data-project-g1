@@ -1,24 +1,29 @@
-class flight {
+class FlightEntry {
   
   //static int numberOfFlights = 0;
-  //String airline;
-  //Airport departureAirport;
-  //Airport arrivalAirport;
-  //int scheduledDeparture;
-  //int actualDeparture;
   String airline;
-  int flightNumber;
-  String airportCode;
-  String airportCity;
+  String flightNumber;
+  String originCode;
+  String originName;
+  String destinationCode;
+  String destinationName;
+  String departureTime;
+  String arrivalTime;
+  Boolean cancelled;
   
   
   
-  flight(String airline, int flightNumber, String airportCode, String airportCity) {
+  FlightEntry(String airline, String flightNumber, String originCode, String originName, String destinationCode, String destinationName, String departureTime, String arrivalTime, Boolean cancelled) {
     //numberOfFlights++;
     this.airline = airline;
     this.flightNumber = flightNumber;
-    this.airportCode = airportCode;
-    this.airportCity = airportCity;
+    this.originCode = originCode;
+    this.originName = originName;
+    this.destinationCode = destinationCode;
+    this.destinationName = destinationName;
+    this.departureTime = departureTime;
+    this.arrivalTime = arrivalTime;
+    this.cancelled = cancelled;
   }
   
   
