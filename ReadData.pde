@@ -1,6 +1,7 @@
 Table table;
 ArrayList<FlightEntry> allFlights;
 PFont displayFont;
+FlightStatsPieChart pieChart;
 
 void setup() {
   size(1200, 800);
@@ -28,17 +29,20 @@ void setup() {
     String destinationCode = row.getString("DEST");
     String destinationName = row.getString("DEST_CITY_NAME");
     String departureTime = row.getString("DEP_TIME");
+    String departureTimeFormatted = row.getString("DEP_TIME");
     String arrivalTime = row.getString("ARR_TIME");
+    String arrivalTimeFormatted = row.getString("DEP_TIME");
+    String scheduledArrivalTime = row.getString("CRS_ARR_TIME");
     
-    if (departureTime.length() >= 4) {
-      departureTime = departureTime.substring(0,2) + ":" + departureTime.substring(2,4);
+    if (departureTimeFormatted.length() >= 4) {
+      departureTimeFormatted = departureTimeFormatted.substring(0,2) + ":" + departureTimeFormatted.substring(2,4);
     } else {
-      departureTime = "XX:XX";
+      departureTimeFormatted = "XX:XX";
     }
-    if (arrivalTime.length() == 4) {
-      arrivalTime = arrivalTime.substring(0,2) + ":" + arrivalTime.substring(2,4);
+    if (arrivalTimeFormatted.length() == 4) {
+      arrivalTimeFormatted = arrivalTimeFormatted.substring(0,2) + ":" + arrivalTimeFormatted.substring(2,4);
     } else {
-      arrivalTime = "XX:XX";
+      arrivalTimeFormatted = "XX:XX";
     }
     
     Boolean cancelled = false;
@@ -47,36 +51,41 @@ void setup() {
       cancelled = true;
     }
     
-    allFlights.add(new FlightEntry(airline, flightNumber, originCode, originName, destinationCode, destinationName, departureTime, arrivalTime, cancelled));
+    allFlights.add(new FlightEntry(airline, flightNumber, originCode, originName, destinationCode, destinationName, departureTime, departureTimeFormatted, arrivalTime, arrivalTimeFormatted, scheduledArrivalTime, cancelled));
+    
   }
+  
+  pieChart = new FlightStatsPieChart(900, 400, 300);
+  pieChart.countFlights(allFlights);
 }
 
 void draw() {
   background(255); 
   textFont(displayFont);
-  
   int spacer = 20;
-  for (int i = 0; i < min(allFlights.size(), 65); i++) { 
-    
-    FlightEntry flight = allFlights.get(i);
-    
-    if (flight.cancelled) {
-      fill(255, 0, 0);
-    } else {
-      fill(0);
-    }
+  for (int i = 0; i < min(allFlights.size(), 65); i++) {
+    FlightEntry flight = allFlights.get(i); 
+    // NEXT STEP IN RENDERING DATA - TAKING QUERY AND ACTING ACCORDINGLY - FOR EXAMPLE if (flight.originCode.equals("ATL")) { 
+    fill(flight.cancelled ? color(255, 0, 0) : color(0));
     text(i+1, 20, spacer);
-    text(flight.airline + " " + 
-    flight.flightNumber +"         "+ 
-    flight.departureTime + " " +
-    flight.originCode + " " + 
-    flight.originName + "  >>>>>   " + 
-    flight.destinationCode + " " + 
-    flight.destinationName + " " +
-    flight.arrivalTime + " " +
-    (flight.cancelled ? "Cancelled" : "")
-    ,70, spacer);
+    text(flight.airline + " " + flight.flightNumber + " " + flight.departureTimeFormatted + " " + flight.originCode +
+         " >>>>> " + flight.destinationCode + " " + flight.arrivalTimeFormatted + " " + (flight.cancelled ? "Cancelled" : ""), 
+         70, spacer);
+    spacer += 12;
     
-    spacer += 12; 
   }
+  pieChart.drawPieChart();
 }
+
+
+int convertTimeToMinutes(String timeStr) {
+  if (timeStr.length() == 4) {
+    int hours = Integer.parseInt(timeStr.substring(0, 2));
+    int minutes = Integer.parseInt(timeStr.substring(2, 4));
+    int total = hours * 60 + minutes;
+    return total;
+  }
+  return 0;
+}
+
+
