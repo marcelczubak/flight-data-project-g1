@@ -22,7 +22,7 @@ class FlightStatsPieChart {
       
       if (flight.arrivalTime.length() == 4 && flight.departureTime.length() == 4) { // talk 
       int arrTime = convertTimeToMinutes(flight.arrivalTime);
-      int crsArrTime = convertTimeToMinutes(flight.scheduledArrivalTime); // ✅ Use scheduled departure time
+      int crsArrTime = convertTimeToMinutes(flight.scheduledArrivalTime); 
       println ("CRS"+crsArrTime);
       println("ARR"+arrTime);
       int arrivalDelay = arrTime - crsArrTime  ; // if negative then early
