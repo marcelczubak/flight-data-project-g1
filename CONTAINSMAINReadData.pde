@@ -2,14 +2,23 @@ Table table;
 ArrayList<FlightEntry> allFlights;
 PFont displayFont;
 FlightStatsPieChart pieChart;
+boolean showEntryScreen = true;// new
+boolean showPieChart = false;// new
+boolean showTable = false;// new
+int startIndex = 0; // new
+
+Button pieChartButton; // new
+Button tableButton; // new
 
 void setup() {
   size(1200, 800);
   background(255); 
   displayFont = createFont("Arial", 12, true); 
 
+  pieChartButton = new Button("Show Pie Chart", 400, 600, 200, 50); //new
+  tableButton = new Button("Show Table", 650, 600, 200, 50);// new
+
   allFlights = new ArrayList<>();
-  
   table = loadTable("flights100k(1).csv", "header");
   println("Entries loaded: ", table.getRowCount());
   
@@ -55,14 +64,29 @@ void setup() {
     
   }
   
-  pieChart = new FlightStatsPieChart(900, 400, 300);
+  pieChart = new FlightStatsPieChart(600, 400, 500);
   pieChart.countFlights(allFlights);
 }
 
 void draw() {
   background(255); 
   textFont(displayFont);
-  int spacer = 20;
+  
+    if (showEntryScreen) {
+    fill(0);
+    textSize(24);
+    text("Welcome to the Flight Data Dashboard", 400, 200);
+
+    pieChartButton.display();
+    tableButton.display();
+  } else if (showPieChart) {
+    // Display the pie chart screen
+    pieChart.drawPieChart();
+  } else if (showTable) {
+    // Display the table screen
+    displayTable();
+  }
+  /*int spacer = 20;
   for (int i = 0; i < min(allFlights.size(), 65); i++) {
     FlightEntry flight = allFlights.get(i); 
     // NEXT STEP IN RENDERING DATA - TAKING QUERY AND ACTING ACCORDINGLY - FOR EXAMPLE if (flight.originCode.equals("ATL")) { 
@@ -74,9 +98,22 @@ void draw() {
     spacer += 12;
     
   }
-  pieChart.drawPieChart();
+  pieChart.drawPieChart();*/
 }
 
+void mousePressed() {
+  if (showEntryScreen) {
+    if (pieChartButton.isPressed()) {
+      showEntryScreen = false;
+      showPieChart = true;
+      showTable = false;
+    } else if (tableButton.isPressed()) {
+      showEntryScreen = false;
+      showPieChart = false;
+      showTable = true;
+    }
+  }
+}
 
 int convertTimeToMinutes(String timeStr) {
   if (timeStr.length() == 4) {
@@ -88,4 +125,58 @@ int convertTimeToMinutes(String timeStr) {
   return 0;
 }
 
+void displayTable() {
+  int spacer = 20;
+   textAlign(LEFT); 
 
+  int endIndex = min(startIndex + 65, allFlights.size());
+  for (int i = startIndex; i < endIndex; i++) {
+    FlightEntry flight = allFlights.get(i);
+     color flightColor = color(0);
+     String flightStatus = "ERROR: Flight Status Unknown";
+    
+    if (flight.cancelled) {
+      flightColor = color(255, 0, 0);
+      flightStatus = "Cancelled";
+    } else {
+      int arrTime = convertTimeToMinutes(flight.arrivalTime);
+      int crsArrTime = convertTimeToMinutes(flight.scheduledArrivalTime);
+      int arrivalDelay = arrTime - crsArrTime; 
+
+      if (arrivalDelay < 0) {
+        flightColor = color(0, 0, 255);
+        flightStatus = "Early";
+      } else if (arrivalDelay == 0) {
+        flightColor = color(0, 255, 0);  
+        flightStatus = "On Time";
+      } else {
+        flightColor = color(255, 165, 0); 
+      flightStatus = "Late";
+      }
+    }
+
+    fill(flightColor);  
+    
+    text(i + 1, 10, spacer);
+    text(flight.airline + " " + flight.flightNumber + " " + flight.departureTimeFormatted + " " + flight.originCode +
+         " >>>>> " + flight.destinationCode + " " + flight.arrivalTimeFormatted + " " + flightStatus,
+         200, spacer);
+    spacer += 12;
+  }
+  fill(0);
+  text ("press d to see next 65", 800, 50);
+  text ("press a to see next 65", 800, 70);
+
+}
+
+void keyPressed() {
+  if (key == 'd' || key == 'D') {
+    // Move to next set of rows (increment by 65)
+    startIndex += 65;
+    if (startIndex >= allFlights.size()) startIndex = 0;  // Reset if we go beyond the data size
+  } else if (key == 'a' || key == 'A') {
+    // Move to previous set of rows (decrement by 65)
+    startIndex -= 65;
+    if (startIndex < 0) startIndex = max(0, allFlights.size() - 65);  // Ensure we don't go below 0
+  }
+}
