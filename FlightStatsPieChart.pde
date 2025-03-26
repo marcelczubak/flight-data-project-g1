@@ -12,34 +12,37 @@ class FlightStatsPieChart {
     this.cancelled = 0;
   }
 
-  void countFlights(ArrayList<FlightEntry> flights) {
-    
+void countFlights(ArrayList<FlightEntry> flights) {
     for (FlightEntry flight : flights) { 
-      if (flight.cancelled) {
-        cancelled++;
-        continue;
-      }
-      
-      if (flight.arrivalTime.length() == 4 && flight.departureTime.length() == 4) { // talk 
-      int arrTime = convertTimeToMinutes(flight.arrivalTime);
-      int crsArrTime = convertTimeToMinutes(flight.scheduledArrivalTime); 
-      println ("CRS"+crsArrTime);
-      println("ARR"+arrTime);
-      int arrivalDelay = arrTime - crsArrTime  ; // if negative then early
+        if (flight.cancelled) {
+            cancelled++;
+            continue;
+        }
 
-      if (arrivalDelay < -10) {
-        early++;
-      } else if (abs(arrivalDelay) < 10) {
-        onTime++;
-      } else {
-        late++;
-      }
+        
+        if (flight.arrivalTime != null && flight.departureTime != null) { 
+            int arrTime = flight.arrivalTime.toMinutes(); 
+            int crsArrTime = flight.scheduledArrivalTime.toMinutes(); 
+            
+            println("CRS " + crsArrTime);
+            println("ARR " + arrTime);
+            
+            int arrivalDelay = arrTime - crsArrTime; // if negative then early
+            
+            if (arrivalDelay < -10) {
+                early++;
+            } else if (abs(arrivalDelay) < 10) {
+                onTime++;
+            } else {
+                late++;
+            }
 
-      // Debugging: 
-      println("ARR_TIME: " + flight.arrivalTime + ", CRS_ARR_TIME: " + flight.departureTime + ", Delay: " + arrivalDelay);
+            // Debugging: 
+            println("ARR_TIME: " + arrTime + ", CRS_ARR_TIME: " + crsArrTime + ", Delay: " + arrivalDelay);
+        }
     }
-  }
-  }
+}
+
 
   void drawPieChart() {
     int total = onTime + late + early + cancelled;
