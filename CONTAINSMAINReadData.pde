@@ -9,19 +9,21 @@ int startIndex = 0; // new
 
 Button pieChartButton; // new
 Button tableButton; // new
+Button backButton; // new
 
 void setup() {
   size(1200, 800);
   background(255); 
   displayFont = createFont("Arial", 12, true); 
 
-  pieChartButton = new Button("Show Pie Chart", 400, 600, 200, 50); //new
-  tableButton = new Button("Show Table", 650, 600, 200, 50);// new
+  pieChartButton = new Button("Show Pie Chart", 400, 600, 200, 50);
+  tableButton = new Button("Show Table", 650, 600, 200, 50);
+  backButton = new Button("Back",width-120, height-60, 100, 40);  // back button for navigation
 
   allFlights = new ArrayList<>();
   table = loadTable("flights100k(1).csv", "header");
   println("Entries loaded: ", table.getRowCount());
-  
+
   for (TableRow row : table.rows()) {
     String airline = row.getString("MKT_CARRIER");
     String flightNumber = row.getString("MKT_CARRIER_FL_NUM");
@@ -38,30 +40,18 @@ void setup() {
     String destinationCode = row.getString("DEST");
     String destinationName = row.getString("DEST_CITY_NAME");
     String departureTime = row.getString("DEP_TIME");
-    String departureTimeFormatted = row.getString("DEP_TIME");
     String arrivalTime = row.getString("ARR_TIME");
-    String arrivalTimeFormatted = row.getString("DEP_TIME");
     String scheduledArrivalTime = row.getString("CRS_ARR_TIME");
     
-    if (departureTimeFormatted.length() >= 4) {
-      departureTimeFormatted = departureTimeFormatted.substring(0,2) + ":" + departureTimeFormatted.substring(2,4);
-    } else {
-      departureTimeFormatted = "XX:XX";
-    }
-    if (arrivalTimeFormatted.length() == 4) {
-      arrivalTimeFormatted = arrivalTimeFormatted.substring(0,2) + ":" + arrivalTimeFormatted.substring(2,4);
-    } else {
-      arrivalTimeFormatted = "XX:XX";
-    }
-    
+   
     Boolean cancelled = false;
     String cancelledString = row.getString("CANCELLED");
     if (cancelledString.charAt(0) == '1') {
       cancelled = true;
     }
     
-    allFlights.add(new FlightEntry(airline, flightNumber, originCode, originName, destinationCode, destinationName, departureTime, departureTimeFormatted, arrivalTime, arrivalTimeFormatted, scheduledArrivalTime, cancelled));
-    
+   allFlights.add(new FlightEntry(airline, flightNumber, originCode, originName, destinationCode, destinationName, 
+                               departureTime, arrivalTime, scheduledArrivalTime, cancelled));
   }
   
   pieChart = new FlightStatsPieChart(600, 400, 500);
@@ -72,34 +62,23 @@ void draw() {
   background(255); 
   textFont(displayFont);
   
-    if (showEntryScreen) {
+  if (showEntryScreen) {
     fill(0);
     textSize(24);
     text("Welcome to the Flight Data Dashboard", 400, 200);
-
     pieChartButton.display();
     tableButton.display();
   } else if (showPieChart) {
-    // Display the pie chart screen
+    // Show pie chart
     pieChart.drawPieChart();
+    backButton.display();  // Display back button on pie chart screen
   } else if (showTable) {
-    // Display the table screen
+    // Show table
     displayTable();
+    backButton.display();  // Display back button on table screen
   }
-  /*int spacer = 20;
-  for (int i = 0; i < min(allFlights.size(), 65); i++) {
-    FlightEntry flight = allFlights.get(i); 
-    // NEXT STEP IN RENDERING DATA - TAKING QUERY AND ACTING ACCORDINGLY - FOR EXAMPLE if (flight.originCode.equals("ATL")) { 
-    fill(flight.cancelled ? color(255, 0, 0) : color(0));
-    text(i+1, 20, spacer);
-    text(flight.airline + " " + flight.flightNumber + " " + flight.departureTimeFormatted + " " + flight.originCode +
-         " >>>>> " + flight.destinationCode + " " + flight.arrivalTimeFormatted + " " + (flight.cancelled ? "Cancelled" : ""), 
-         70, spacer);
-    spacer += 12;
-    
-  }
-  pieChart.drawPieChart();*/
 }
+
 
 void mousePressed() {
   if (showEntryScreen) {
@@ -112,10 +91,19 @@ void mousePressed() {
       showPieChart = false;
       showTable = true;
     }
+  } else if (showPieChart || showTable) {
+    // If back button is pressed, return to entry screen
+    if (backButton.isPressed()) {
+      showEntryScreen = true;
+      showPieChart = false;
+      showTable = false;
+    }
   }
 }
 
-int convertTimeToMinutes(String timeStr) {
+
+int convertTimeToMinutes(String timeStr) 
+{
   if (timeStr.length() == 4) {
     int hours = Integer.parseInt(timeStr.substring(0, 2));
     int minutes = Integer.parseInt(timeStr.substring(2, 4));
@@ -125,7 +113,8 @@ int convertTimeToMinutes(String timeStr) {
   return 0;
 }
 
-void displayTable() {
+void displayTable() 
+{
   int spacer = 20;
    textAlign(LEFT); 
 
@@ -139,8 +128,8 @@ void displayTable() {
       flightColor = color(255, 0, 0);
       flightStatus = "Cancelled";
     } else {
-      int arrTime = convertTimeToMinutes(flight.arrivalTime);
-      int crsArrTime = convertTimeToMinutes(flight.scheduledArrivalTime);
+      int arrTime = flight.arrivalTime.toMinutes();
+      int crsArrTime = flight.scheduledArrivalTime.toMinutes();
       int arrivalDelay = arrTime - crsArrTime; 
 
       if (arrivalDelay < 0) {
@@ -158,14 +147,15 @@ void displayTable() {
     fill(flightColor);  
     
     text(i + 1, 10, spacer);
-    text(flight.airline + " " + flight.flightNumber + " " + flight.departureTimeFormatted + " " + flight.originCode +
-         " >>>>> " + flight.destinationCode + " " + flight.arrivalTimeFormatted + " " + flightStatus,
-         200, spacer);
+   text(flight.airline + " " + flight.flightNumber + " " + 
+     flight.getFormattedTime(flight.departureTime) + " " + flight.originCode +
+     " >>>>> " + flight.destinationCode + " " + 
+     flight.getFormattedTime(flight.arrivalTime) + " " + flightStatus, 200, spacer);
     spacer += 12;
   }
   fill(0);
   text ("press d to see next 65", 800, 50);
-  text ("press a to see next 65", 800, 70);
+  text ("press a to see previous 65", 800, 70);
 
 }
 
