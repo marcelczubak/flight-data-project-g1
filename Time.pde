@@ -1,10 +1,15 @@
- class Time {
+class Time {
     public int hours;
     public int minutes;
 
     Time(String times) {
-        this.hours = convertStringToHours(times);
-        this.minutes = convertStringToMinutes(times);
+        if (times == null || times.length() < 4) {  // ✅ Check for null or invalid length
+            this.hours = 0;
+            this.minutes = 0;
+        } else {
+            this.hours = convertStringToHours(times);
+            this.minutes = convertStringToMinutes(times);
+        }
     }
 
     private int convertStringToHours(String times) {
@@ -15,9 +20,11 @@
         return Integer.parseInt(times.substring(2, 4));
     }
 
+    public int toMinutes() {
+        return hours * 60 + minutes;
+    }
+
     public int getDelayInMinutes(Time expectedTime) {
-        int diffInHours = this.hours - expectedTime.hours;
-        int diffInMinutes = this.minutes - expectedTime.minutes;
-        return diffInHours * 60 + diffInMinutes; 
+        return this.toMinutes() - expectedTime.toMinutes();
     }
 }
