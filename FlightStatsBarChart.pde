@@ -5,7 +5,7 @@ void drawBarChart() {
   String[] categories = {"0-500", "500-1000", "1000-2000", "2000-3000", "3000+"};
   int[] flightCounts = new int[categories.length];
 
-  // ✅ Count flights per category
+  //Count flights per category
   for (FlightEntry flight : allFlights) {
     float dist = flight.distance;
     for (int i = 0; i < bins.length - 1; i++) {
