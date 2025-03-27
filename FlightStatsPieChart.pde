@@ -18,8 +18,6 @@ void countFlights(ArrayList<FlightEntry> flights) {
             cancelled++;
             continue;
         }
-
-        
         if (flight.arrivalTime != null && flight.departureTime != null) { 
             int arrTime = flight.arrivalTime.toMinutes(); 
             int crsArrTime = flight.scheduledArrivalTime.toMinutes(); 
@@ -38,12 +36,10 @@ void countFlights(ArrayList<FlightEntry> flights) {
             }
 
             // Debugging: 
-            println("ARR_TIME: " + arrTime + ", CRS_ARR_TIME: " + crsArrTime + ", Delay: " + arrivalDelay);
+            //println("ARR_TIME: " + arrTime + ", CRS_ARR_TIME: " + crsArrTime + ", Delay: " + arrivalDelay);
         }
     }
 }
-
-
   void drawPieChart() {
     int total = onTime + late + early + cancelled;
     if (total == 0) return; 
