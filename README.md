@@ -10,16 +10,18 @@ Group G-1 :
 
 
 WEEK 1
-- upload and see data
-
+- read the csv file containing 100,000 flights
+- create a FlightEntry object which represents each of the flights
+- display the flights on a simple table
+- formatting, alignment, and time formatting (UI)
 
 
 WEEK 2
-- creating of a pie chart using all pieces of data
-
+- creating of a pie chart using all pieces of data, to display the punctuality statistics of all the flights
 
 
 WEEK 3
 - implementation of a 'drag table' function - by clicking d or a, one can see previous and next entries in the data
-- implmementation of different screens and menu navigation
-- implemented a 'filter mode' to filter and display screens based on certain criteria (e.g. origin = "LAX")
+- integrated a screen view and menu navigation with buttons
+- added a 'filter mode' to filter and display screens based on certain criteria (e.g. origin = "LAX")
+- added a bar chart which displays the distance travelled by each of the flights, and, the ability to view another bar chart depending on flights filtered in table at that time
