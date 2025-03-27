@@ -14,8 +14,6 @@ WEEK 1
 
 
 
-
-
 WEEK 2
 - creating of a pie chart using all pieces of data
 
@@ -23,5 +21,5 @@ WEEK 2
 
 WEEK 3
 - implementation of a 'drag table' function - by clicking d or a, one can see previous and next entries in the data
-- Implmementation of different screens
-- 
+- implmementation of different screens and menu navigation
+- implemented a 'filter mode' to filter and display screens based on certain criteria (e.g. origin = "LAX")
