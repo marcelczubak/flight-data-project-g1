@@ -1,3 +1,4 @@
+
 void drawBarChart() {
   int[] bins = {0, 500, 1000, 2000, 3000, Integer.MAX_VALUE};
   String[] categories = {"0-500 Mi", "500-1000 Mi", "1000-2000 Mi", "2000-3000 Mi", "3000+ Mi"};
@@ -39,7 +40,7 @@ void drawFilteredBarChart() {  // NEW
   String[] categories = {"0-500 Mi", "500-1000 Mi", "1000-2000 Mi", "2000-3000 Mi", "3000+ Mi"};
   int[] flightCounts = new int[categories.length];
 
-  int endIndex = min(startIndex + 65, indexesToFetch.size());
+  int endIndex = min(startIndex + amountToDisplay, indexesToFetch.size());
   for (int i = startIndex; i < endIndex; i++) {
     int flightIndex = indexesToFetch.get(i);
     float dist = allFlights.get(flightIndex).distance;
@@ -69,6 +70,6 @@ void drawFilteredBarChart() {  // NEW
   fill(0);
   textSize(14);
   textAlign(CENTER);
-  text("Filtered Flight Count (Only Displayed 65)", width / 2, 20);
+  text("Filtered Flight Count (Only Displayed "+amountToDisplay +")", width / 2, 20);
   text("Flights from " + (startIndex + 1 ) + " to " + (endIndex + 1) + " displayed", 200, 50);
 }
