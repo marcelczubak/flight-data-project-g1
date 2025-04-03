@@ -25,3 +25,7 @@ WEEK 3
 - integrated a screen view and menu navigation with buttons
 - added a 'filter mode' to filter and display screens based on certain criteria (e.g. origin = "LAX")
 - added a bar chart which displays the distance travelled by each of the flights, and, the ability to view another bar chart depending on flights filtered in table at that time
+
+WEEK 4
+- added text input to filter based on origin code
+- added transition animation for bars in chart
