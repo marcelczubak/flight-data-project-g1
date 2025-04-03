@@ -233,6 +233,18 @@ void keyPressed() {
     startIndex -= amountToDisplay;
     if (startIndex < 0) startIndex = max(0, indexesToFetch.size() - amountToDisplay);  
   }
+  
+  // New scroll for MainBarChart Benny
+  if (key == 'a' || key == 'A') 
+  {
+    scrollOffset = max(0, scrollOffset - 1);
+  }   
+    else if (key == 'd' || key == 'D') 
+  {
+    scrollOffset = min(totalBars - barsPerPage, scrollOffset + 1);
+  }
+
+
 }
 
 
