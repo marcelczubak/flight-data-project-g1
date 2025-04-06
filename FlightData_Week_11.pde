@@ -7,6 +7,7 @@ boolean showPieChart = false;
 boolean showTable = false;
 boolean showBarChart = false; 
 boolean showFilteredBarChart = false; 
+boolean showFilteredPieChart = false;  // Week 12 Benny
 int startIndex = 0; 
 int amountToDisplay = 30;
 
@@ -14,7 +15,8 @@ Button barChartButton;
 Button pieChartButton; 
 Button tableButton;
 Button backButton;
-Button barChartFilteredButton;  
+Button barChartFilteredButton;
+Button pieChartFilteredButton;  // Week 12 Benny
 
 TextBox typeOrigin;
 
@@ -28,11 +30,12 @@ void setup() {
   displayFont = createFont("Arial", 12, true); 
 
   pieChartButton = new Button("Show Pie Chart", 400, 600, 200, 50);
+  pieChartFilteredButton = new Button("Filtered Pie Chart", 400, 660, 200, 50);  // Week 12 Benny
   tableButton = new Button("Show Table", 650, 600, 200, 50);
   backButton = new Button("Back",1000, 50, 100, 40);  
   barChartButton = new Button ("Show Bar Chart", 900, 600, 200, 50); 
-  barChartFilteredButton = new Button("Filtered Bar Chart", 900, 660, 200, 50);  
-  
+  barChartFilteredButton = new Button("Filtered Bar Chart", 900, 660, 200, 50);
+
   // Week 11 MARCEL
   typeOrigin = new TextBox(250, 50, 700, 375);
 
@@ -55,6 +58,7 @@ void setup() {
     String destinationCode = row.getString("DEST");
     String destinationName = row.getString("DEST_CITY_NAME");
     String departureTime = row.getString("DEP_TIME");
+    String scheduledDepartureTime = row.getString("CRS_DEP_TIME"); //new benny week 12
     String arrivalTime = row.getString("ARR_TIME");
     String scheduledArrivalTime = row.getString("CRS_ARR_TIME");
     Boolean cancelled = false;
@@ -66,7 +70,7 @@ void setup() {
     }
     
    allFlights.add(new FlightEntry(airline, flightNumber, originCode, originName, destinationCode, destinationName, 
-                               departureTime, arrivalTime, scheduledArrivalTime, cancelled, distance));
+                               departureTime, scheduledDepartureTime /*new week 12 benny*/, arrivalTime, scheduledArrivalTime, cancelled, distance));
   }
   
    pieChart = new FlightStatsPieChart(600, 400, 500);
@@ -87,6 +91,8 @@ void draw() {
     tableButton.display();
     barChartButton.display();
     barChartFilteredButton.display();
+    pieChartFilteredButton.display();  // Week 12 Benny
+
     
     // ALL SCREENS HERE ATM ... need to be moved to separate classes
     
@@ -96,24 +102,32 @@ void draw() {
   } else if (showTable) {
     displayTable();
     backButton.display(); 
-    
-    // Week 11 NEW marcel
-    textSize(18);
-    text("Enter Origin Code:", 790, 360);
-    typeOrigin.display();
-    
-    if (indexesToFetch.isEmpty()) {
-      fill(255, 0, 0);
-      text("Error: There were no flights found departing from " + typeOrigin.text.toUpperCase(), 100, 375);
-    }
-    
   } else if (showBarChart) {
     drawBarChart();
     backButton.display();
   } else if (showFilteredBarChart) {
     drawFilteredBarChart();
     backButton.display();
+  } else if (showFilteredPieChart) {    // Week 12 Benny
+    drawFilteredPieChart();  
+    backButton.display();
   }
+    
+    // Week 11 NEW marcel
+    textSize(18);
+  if (showTable) {
+  text("Enter Origin Code:", 790, 360);
+  typeOrigin.display();
+  }
+
+    
+    if (indexesToFetch.isEmpty() && showTable) {
+       fill(255, 0, 0);
+      text("Error: There were no flights found departing from " + typeOrigin.text.toUpperCase(), 100, 375);
+    }
+    
+
+
 }
 
 void mousePressed() {
@@ -142,13 +156,22 @@ void mousePressed() {
       showTable = false;
       showBarChart = false;
       showFilteredBarChart = true;
-  } else if ((showPieChart || showTable || showBarChart || showFilteredBarChart) && backButton.isPressed()) {
+  } else if ((showPieChart || showTable || showBarChart || showFilteredBarChart || showFilteredPieChart) && backButton.isPressed()) {
       showEntryScreen = true;
       showPieChart = false;
       showTable = false;
       showBarChart = false;
       showFilteredBarChart = false;
-  }
+      showFilteredPieChart = false;  // Week 12 Benny
+  } else if (pieChartFilteredButton.isPressed()) {    // Week 12 Benny
+    showEntryScreen = false;
+    showPieChart = false;
+    showTable = false;
+    showBarChart = false;
+    showFilteredBarChart = false;
+    showFilteredPieChart = true;
+}
+
 }
 
 
