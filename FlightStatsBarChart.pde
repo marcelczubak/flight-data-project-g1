@@ -1,11 +1,8 @@
-// drawBarChart AND filteredBarChart OVERHAUL and extra code at top WEEK 11 Benny
-
 int scrollOffset = 0;
 int barsPerPage = 6;
 int totalBars = 10;
 float[] animatedHeights = new float[10]; // for bar animation
 
-// BarChart
 void drawBarChart() {
   int[] distanceBins = new int[10];
   String[] labels = {
@@ -78,8 +75,7 @@ void drawBarChart() {
   fill(0);
   textSize(14);
   textAlign(CENTER);
-  text("Flight Count by Distance Category (Press A/D to Scroll)", width / 2, 20);
-  
+  text("Flight Count by Distance Category (Press UP/DOWN to scroll)", width / 2, 20);
 }
 
 // FilteredBarChart
@@ -142,6 +138,6 @@ void drawFilteredBarChart() {
   fill(0);
   textSize(14);
   textAlign(CENTER);
-  text("Filtered Flight Count by Distance Category", width / 2, 20);
+  text("Filtered Flight Count by Distance Category (Press UP/DOWN to scroll)", width / 2, 20);
   text("Flights from " + (startIndex + 1) + " to " + endIndex + " displayed", width / 2, 50);
 }

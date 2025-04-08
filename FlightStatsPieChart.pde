@@ -21,10 +21,6 @@ void countFlights(ArrayList<FlightEntry> flights) {
         if (flight.arrivalTime != null && flight.departureTime != null) { 
             int arrTime = flight.arrivalTime.toMinutes(); 
             int crsArrTime = flight.scheduledArrivalTime.toMinutes(); 
-            
-            println("CRS " + crsArrTime);
-            println("ARR " + arrTime);
-            
             int arrivalDelay = arrTime - crsArrTime; // if negative then early
             
             if (arrivalDelay < -10) {
@@ -34,13 +30,10 @@ void countFlights(ArrayList<FlightEntry> flights) {
             } else {
                 late++;
             }
-
-            // Debugging: 
-            //println("ARR_TIME: " + arrTime + ", CRS_ARR_TIME: " + crsArrTime + ", Delay: " + arrivalDelay);
         }
     }
 }
-//Updated for tooltip Benny Week 11
+
 void drawPieChart() {
   int total = onTime + late + early + cancelled;
   if (total == 0) return; 

@@ -15,10 +15,20 @@ class TextBox {
     stroke(0);
     fill(255);
     rect(x, y, boxWidth, boxHeight);
+  
     fill(0);
     textSize(16);
-    text(text.toUpperCase(), x + 20, y + boxHeight/2);
-    textAlign(LEFT);
+    textAlign(LEFT, CENTER);
+  
+    String displayText = text.toUpperCase();
+    float padding = 20;
+    float maxTextWidth = boxWidth - 2 * padding;
+    
+    while (textWidth(displayText) > maxTextWidth && displayText.length() > 0) {
+      displayText = displayText.substring(1); 
+    }
+  
+    text(displayText, x + padding, y + boxHeight / 2);
   }
   
   void handleClick(float mousePosX, float mousePosY) {
@@ -30,17 +40,16 @@ class TextBox {
   }
   
   void handleKey(char key) {
-    if (selected) {
-      if (key == BACKSPACE && text.length() > 0) {
-        text = text.substring(0, text.length()-1);
-      } else if (key == ENTER) {
-        filterFlights();
-      } else { 
-        text += key;
-      }
-    
+  if (selected) {
+    if (key == BACKSPACE && text.length() > 0) {
+      text = text.substring(0, text.length() - 1);
+    } else if (key == ENTER || key == RETURN) {
+      filterFlights(); 
+    } 
+    else if (key >= 32 && key <= 126) { 
+      text += key;
     }
   }
-  
-  
+}
+
 }
