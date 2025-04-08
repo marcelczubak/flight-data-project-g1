@@ -29,3 +29,11 @@ WEEK 3
 WEEK 4
 - added text input to filter based on origin code
 - added transition animation for bars in chart
+
+WEEK 5
+- Added buttons with icons to home screen
+- Changed the view of the flight table and fixed alignment 
+- Added row headers to the table
+- Changed all scrolling to UP/DOWN instead of A/D
+- Filtering now works based on any letter (not all three e.g LAX)
+- Changed ‘Early’ and ‘On Time’ to ‘On Schedule’
