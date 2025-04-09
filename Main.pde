@@ -31,6 +31,10 @@ FlightEntry currentFlightEntity;
 String originCodeToFind; 
 ArrayList<Integer> indexesToFetch = new ArrayList<>();
 
+Button sortByFlightNumberButton;
+Button sortByTimeButton;
+boolean sortByTime = false;
+
 void setup() {
   
   tableIcon = loadImage("departures.png");
@@ -57,6 +61,9 @@ void setup() {
  
   backButton = new Button("Back", 1000, 50, 100, 40, 1050, 70, color(215));  
   typeOrigin = new TextBox(250, 50, 900, 400);
+  
+  sortByFlightNumberButton = new Button("Sort by Flight #", 800, 150, 150, 40, 875, 170, color(200));
+  sortByTimeButton = new Button("Sort by Time", 960, 150, 150, 40, 1035, 170, color(200));
 
   allFlights = new ArrayList<>();
   table = loadTable("flights100k(1).csv", "header");
@@ -182,6 +189,15 @@ void mousePressed() {
       showFilteredBarChart = false;
       showFilteredPieChart = true;
   }
+  
+  if (showTable && sortByFlightNumberButton.isPressed()) {
+    sortByTime = false;
+    sortFlights();
+  } else if (showTable && sortByTimeButton.isPressed()) {
+    sortByTime = true;
+    sortFlights();
+}
+
 }
 
 int convertTimeToMinutes(String timeStr) {
@@ -203,6 +219,19 @@ void displayTable() {
 
   int endIndex = min(startIndex + amountToDisplay, indexesToFetch.size());
   
+   // Display sort buttons
+    sortByFlightNumberButton.display();
+    sortByTimeButton.display();
+    
+    // Highlight the active sort button
+    if (sortByTime) {
+        sortByTimeButton.buttonColor = color(150, 200, 150);
+        sortByFlightNumberButton.buttonColor = color(200);
+    } else {
+        sortByFlightNumberButton.buttonColor = color(150, 200, 150);
+        sortByTimeButton.buttonColor = color(200);
+    }
+    
   fill(60);  
   textAlign(CENTER);
   textSize(18);
@@ -287,18 +316,39 @@ void keyPressed() {
 }
 
 void filterFlights() {
-  indexesToFetch.clear();
-  String input = typeOrigin.text.trim().toUpperCase();
+    indexesToFetch.clear();
+    String input = typeOrigin.text.trim().toUpperCase();
 
-  if (input.isEmpty()) {
-    for (int i = 0; i < allFlights.size(); i++) {
-      indexesToFetch.add(i);
+    if (input.isEmpty()) {
+        for (int i = 0; i < allFlights.size(); i++) {
+            indexesToFetch.add(i);
+        }
+    } else {
+        for (int i = 0; i < allFlights.size(); i++) {
+            if (allFlights.get(i).originCode.startsWith(input)) {
+                indexesToFetch.add(i);
+            }
+        }
     }
-  } else {
-    for (int i = 0; i < allFlights.size(); i++) {
-      if (allFlights.get(i).originCode.startsWith(input)) {
-        indexesToFetch.add(i);
-      }
+    
+    // Sort the results after filtering
+    sortFlights();
+}
+
+void sortFlights() {
+    if (sortByTime) {
+        // Sort by departure time
+        indexesToFetch.sort((a, b) -> {
+            Time timeA = allFlights.get(a).departureTime;
+            Time timeB = allFlights.get(b).departureTime;
+            return Integer.compare(timeA.toMinutes(), timeB.toMinutes());
+        });
+    } else {
+        // Default sort by flight number
+        indexesToFetch.sort((a, b) -> {
+            String flightNumA = allFlights.get(a).flightNumber.trim();
+            String flightNumB = allFlights.get(b).flightNumber.trim();
+            return flightNumA.compareTo(flightNumB);
+        });
     }
-  }
 }
