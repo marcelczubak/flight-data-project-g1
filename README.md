@@ -37,3 +37,6 @@ WEEK 5
 - Changed all scrolling to UP/DOWN instead of A/D
 - Filtering now works based on any letter (not all three e.g LAX)
 - Changed ‘Early’ and ‘On Time’ to ‘On Schedule’
+- Sorted table also based on time as well
+
+- Completed Video and Report
