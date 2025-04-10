@@ -1,9 +1,11 @@
+//SP
+
 class Time {
     public int hours;
     public int minutes;
 
     Time(String times) {
-        if (times == null || times.length() < 4) {  // ✅ Check for null or invalid length
+        if (times == null || times.length() < 4) {  
             this.hours = 0;
             this.minutes = 0;
         } else {
