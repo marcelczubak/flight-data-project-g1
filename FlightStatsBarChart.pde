@@ -1,4 +1,4 @@
-// BC
+// OA and BC
 
 int scrollOffset = 0;
 int barsPerPage = 6;
