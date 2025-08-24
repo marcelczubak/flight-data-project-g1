@@ -1,42 +1,42 @@
-# CSU-11013 // Programming Project
+# ✈️ FlightData Explorer
 
-Group G-1 : 
-- Marcel Czubak
-- Omar Abdalla
-- Benny Chen
-- Sinclair Philandrianos
-- Mohammed Mahmoud
-- Clarke Klein
+A responsive web app prototype for visualizing and analyzing flight data. Import, explore, and filter flight records from a CSV containing 100,000 flights. Create charts, filter views, and navigate your dataset with ease. This is a weekly progression project documenting my journey in building interactive data visualization tools.
 
+---
 
-WEEK 1
-- read the csv file containing 100,000 flights
-- create a FlightEntry object which represents each of the flights
-- display the flights on a simple table
-- formatting, alignment, and time formatting (UI)
+## 🚀 Features
 
+- 📄 Read and display 100,000 flight records from a CSV file  
+- 🛫 Represent each flight as a `FlightEntry` object  
+- 🧾 Display flights in a formatted table with proper alignment and time formatting  
+- 📊 Visualize punctuality statistics using pie charts  
+- 📈 Display flight distances using dynamic bar charts  
+- 🔄 Navigate table entries using keyboard-driven drag table functionality  
+- 🔍 Filter flights by origin, or using text input for dynamic searching  
+- 🎨 Smooth transitions and animations for charts  
+- 🖱️ Interactive menu navigation with buttons and icons  
+- 🕒 Sort and filter table data based on time and status (e.g., On Schedule)
 
-WEEK 2
-- creating of a pie chart using all pieces of data, to display the punctuality statistics of all the flights
+---
 
+## 🛠 Tech Stack
 
-WEEK 3
-- implementation of a 'drag table' function - by clicking d or a, one can see previous and next entries in the data
-- integrated a screen view and menu navigation with buttons
-- added a 'filter mode' to filter and display screens based on certain criteria (e.g. origin = "LAX")
-- added a bar chart which displays the distance travelled by each of the flights, and, the ability to view another bar chart depending on flights filtered in table at that time
+- **Frontend**: React, Javascript, CSS  
+- **Data Handling**: CSV parsing and `FlightEntry` objects  
+- **Visualization**: Pie and Bar Charts
 
-WEEK 4
-- added text input to filter based on origin code
-- added transition animation for bars in chart
+---
 
-WEEK 5
-- Added buttons with icons to home screen
-- Changed the view of the flight table and fixed alignment 
-- Added row headers to the table
-- Changed all scrolling to UP/DOWN instead of A/D
-- Filtering now works based on any letter (not all three e.g LAX)
-- Changed ‘Early’ and ‘On Time’ to ‘On Schedule’
-- Sorted table also based on time as well
+## 📸 Screenshots
 
-- Completed Video and Report
+*(Add screenshots here, e.g., table view, pie chart, bar chart, filtered view)*
+
+---
+
+## 🌍 Project Progress
+
+- **Week 1**: Imported CSV, created `FlightEntry` objects, displayed table, formatted UI  
+- **Week 2**: Added pie chart for flight punctuality statistics  
+- **Week 3**: Implemented drag table navigation, menu buttons, filter mode, bar chart for distances  
+- **Week 4**: Added text input filtering, chart animations  
+- **Week 5**: Enhanced home screen with icons, refined table layout, improved scrolling, dynamic filtering, completed video and report
