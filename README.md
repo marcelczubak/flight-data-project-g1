@@ -31,10 +31,10 @@ A Processing (Java) application for visualizing and analyzing flight data. Impor
 
 ## 📸 Screenshots
 
-![Flights Filtered by Airport](./public/screenshots/FullViewFiltered.png) 
-![Flights Filtered by Time](./public/screenshots/FullViewTime.png) 
-![Flights by Distance](./public/screenshots/DistanceBars.png) 
-![Flights by Punctuality](./public/screenshots/PieChart.png) 
+![Flights Filtered by Airport](./images/FullViewFiltered.png) 
+![Flights Filtered by Time](./images/screenshots/FullViewTime.png) 
+![Flights by Distance](./images/screenshots/DistanceBars.png) 
+![Flights by Punctuality](./images/screenshots/PieChart.png) 
 
 ---
 
