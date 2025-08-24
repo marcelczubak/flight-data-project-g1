@@ -1,6 +1,8 @@
 # ✈️ FlightData Explorer
 
-A responsive web app prototype for visualizing and analyzing flight data. Import, explore, and filter flight records from a CSV containing 100,000 flights. Create charts, filter views, and navigate your dataset with ease. This is a weekly progression project documenting my journey in building interactive data visualization tools.
+A Processing (Java) application for visualizing and analyzing flight data. Import, explore, and filter flight records from a CSV containing 100,000 flights. Create charts, filter views, and navigate your dataset with ease. This is a weekly progression project documenting my journey in building interactive data visualization tools.
+
+![App Screenshot](./images/MainMenu.png) 
 
 ---
 
@@ -29,7 +31,10 @@ A responsive web app prototype for visualizing and analyzing flight data. Import
 
 ## 📸 Screenshots
 
-*(Add screenshots here, e.g., table view, pie chart, bar chart, filtered view)*
+![Flights Filtered by Airport](./public/screenshots/FullViewFiltered.png) 
+![Flights Filtered by Time](./public/screenshots/FullViewTime.png) 
+![Flights by Distance](./public/screenshots/DistanceBars.png) 
+![Flights by Punctuality](./public/screenshots/PieChart.png) 
 
 ---
 
